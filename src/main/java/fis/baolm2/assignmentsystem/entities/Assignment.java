@@ -1,5 +1,6 @@
 package fis.baolm2.assignmentsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,6 +16,8 @@ public class Assignment {
     private String codeReviewVideoUrl;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
     public String getBranch() {
