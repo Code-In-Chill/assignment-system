@@ -14,7 +14,8 @@ public class User {
     private LocalDate groupStartDate;
 
     private String username;
-    private String password;
+
+    private String keycloakId;
 
     public LocalDate getGroupStartDate() {
         return groupStartDate;
@@ -32,19 +33,19 @@ public class User {
         this.id = id;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getKeycloakId() {
+        return keycloakId;
+    }
+
+    public void setKeycloakId(String keycloakId) {
+        this.keycloakId = keycloakId;
     }
 }
