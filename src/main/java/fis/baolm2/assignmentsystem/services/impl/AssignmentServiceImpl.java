@@ -22,4 +22,9 @@ public class AssignmentServiceImpl implements AssignmentService {
     public List<Assignment> findAllByUser_Id(Long id) {
         return assignmentRepository.findAllByUser_Id(id);
     }
+
+    @Override
+    public Assignment createAssignment(Assignment assignment) {
+        return assignmentRepository.save(assignment);
+    }
 }

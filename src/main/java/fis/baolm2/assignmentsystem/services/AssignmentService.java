@@ -7,4 +7,6 @@ import java.util.List;
 public interface AssignmentService {
 
     List<Assignment> findAllByUser_Id(Long id);
+
+    Assignment createAssignment(Assignment assignment);
 }
