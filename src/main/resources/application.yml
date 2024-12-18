@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: AssignmentSystem
+  datasource:
+    url: jdbc:postgresql://localhost:5432/assignment
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: assignment-system
+            client-secret: j2t5MYK3N6E2OLculUGRj3mItwPntVVj
+            scope: openid
+            authorization-grant-type: authorization_code
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/Assignment
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8080/realms/Assignment/protocol/openid-connect/certs
+
+server:
+  port: 9789
