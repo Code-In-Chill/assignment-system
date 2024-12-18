@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import useLocalStorage from "../../utils/useLocalStorage";
+import {Link} from "react-router-dom";
 
 const Dashboard = () => {
     const [token, setToken] = useLocalStorage("", "token");
@@ -20,6 +21,9 @@ const Dashboard = () => {
             })
             .then((assignment) => {
                 window.location.href = `/assignments/${assignment.id}`;
+            })
+            .catch((e) => {
+                alert("Failed to create new assignment:\n" + e.message)
             })
     }
 
@@ -44,8 +48,35 @@ const Dashboard = () => {
             })
     }, []);
 
+    useEffect(() => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        const requestOptions = {
+            method: "GET",
+            headers: myHeaders,
+            redirect: "follow"
+        };
+
+        fetch("http://localhost:9789/api/assignments", requestOptions)
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json()
+                }
+            })
+            .then(assignmentsData => {
+                setAssignments(assignmentsData)
+            })
+    }, []);
+
     return (
         <div className={"Dashboard"} style={{marginTop: "2em"}}>
+            {assignments ? assignments.map((assignment) =>
+                <div key={assignment.id}>
+                    <Link to={`/assignments/${assignment.id}`}>
+                        Assignment id: {assignment.id}
+                    </Link>
+                </div>) : <></>}
             <button onClick={() => {
                 createAssignment()
             }}>Submit New Assignment
