@@ -2,14 +2,15 @@ import './App.css';
 import {useEffect} from "react";
 import useLocalStorage from "./utils/useLocalStorage";
 import {Route, Routes} from "react-router-dom";
-import Dashboard from "./components/dashboard/dashboard";
-import Homepage from "./components/homepage/homepage";
-import Login from "./components/login/login";
+import Dashboard from "./components/dashboard/Dashboard";
+import Homepage from "./components/homepage/Homepage";
+import Login from "./components/login/Login";
 import PrivateRoute from "./components/private-route/PrivateRoute";
+import AssignmentView from "./components/assignment-view/AssignmentView";
 
 function App() {
 
-    const [token, setToken] = useLocalStorage("", "token")
+    const [token] = useLocalStorage("", "token")
 
     useEffect(() => {
     }, [token]);
@@ -21,6 +22,13 @@ function App() {
                     <Dashboard/>
                 </PrivateRoute>
             }/>
+            <Route path={`/assignments/:id`} element={
+                <PrivateRoute>
+                    <AssignmentView/>
+                </PrivateRoute>
+            }>
+
+            </Route>
             <Route path={"login"} element={<Login/>}/>
             <Route path={"/"} element={<Homepage/>}/>
         </Routes>
