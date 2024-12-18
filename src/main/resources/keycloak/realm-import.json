@@ -1,0 +1,219 @@
+{
+  "realm": "Assignment",
+  "enabled": true,
+  "requiredCredentials": [
+    "password"
+  ],
+  "users": [
+    {
+      "username": "student",
+      "firstName": "Student",
+      "lastName": "Assignment",
+      "email": "student@assignment.com",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "sapassword"
+        }
+      ],
+      "realmRoles": [
+        "student"
+      ]
+    },
+    {
+      "username": "teacher",
+      "firstName": "Teacher",
+      "lastName": "Assignment",
+      "email": "teacher@assignment.com",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "sapassword"
+        }
+      ],
+      "realmRoles": [
+        "teacher"
+      ]
+    },
+    {
+      "username": "tadmin",
+      "firstName": "T Admin",
+      "lastName": "Assignment",
+      "email": "tadmin@assignment.com",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "sapassword"
+        }
+      ],
+      "realmRoles": [
+        "teacher",
+        "admin"
+      ]
+    },
+    {
+      "username": "service-account-assignment-system",
+      "enabled": true,
+      "serviceAccountClientId": "assignment-system",
+      "clientRoles": {
+        "assignment-system": [
+          "uma_protection"
+        ]
+      }
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "student",
+        "description": "Student privileges"
+      },
+      {
+        "name": "teacher",
+        "description": "Teacher privileges"
+      },
+      {
+        "name": "admin",
+        "description": "Admin privileges"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "assignment-system",
+      "enabled": true,
+      "baseUrl": "http://localhost:8080/assignment-system",
+      "adminUrl": "http://localhost:8080/assignment-system",
+      "bearerOnly": false,
+      "redirectUris": [
+        "http://localhost:8080/assignment-system/*",
+        "http://127.0.0.1:8080/assignment-system/*"
+      ],
+      "secret": "secret",
+      "authorizationServicesEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "authorizationSettings": {
+        "resources": [
+          {
+            "name": "Student Resource",
+            "uri": "/*",
+            "type": "http://assignment-system/student/resource",
+            "scopes": [
+              {
+                "name": "urn:assignment-system:protected:student:access"
+              }
+            ]
+          },
+          {
+            "name": "Teacher Resource",
+            "uri": "/*",
+            "type": "http://assignment-system/teacher/resource",
+            "scopes": [
+              {
+                "name": "urn:assignment-system:protected:teacher:access"
+              }
+            ]
+          },
+          {
+            "name": "Admin Resource",
+            "uri": "/*",
+            "type": "http://assignment-system/admin/resource",
+            "scopes": [
+              {
+                "name": "urn:assignment-system:protected:admin:access"
+              }
+            ]
+          }
+        ],
+        "policies": [
+          {
+            "name": "Student Policy",
+            "description": "A policy that defines access to student resources",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "roles": "[{\"id\":\"student\"}]"
+            }
+          },
+          {
+            "name": "Teacher Policy",
+            "description": "A policy that defines access to teacher resources",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "roles": "[{\"id\":\"teacher\"}]"
+            }
+          },
+          {
+            "name": "Admin Policy",
+            "description": "A policy that defines access to admin resources",
+            "type": "role",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "roles": "[{\"id\":\"admin\"}]"
+            }
+          },
+          {
+            "name": "Student Resource Permission",
+            "description": "A policy that defines access to student resources",
+            "type": "resource",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"Student Resource\"]",
+              "applyPolicies": "[\"Student Policy\"]"
+            }
+          },
+          {
+            "name": "Teacher Resource Permission",
+            "description": "A policy that defines access to teacher resources",
+            "type": "resource",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"Teacher Resource\"]",
+              "applyPolicies": "[\"Teacher Policy\"]"
+            }
+          },
+          {
+            "name": "Admin Resource Permission",
+            "description": "A policy that defines access to admin resources",
+            "type": "resource",
+            "logic": "POSITIVE",
+            "decisionStrategy": "UNANIMOUS",
+            "config": {
+              "resources": "[\"Admin Resource\"]",
+              "applyPolicies": "[\"Admin Policy\"]"
+            }
+          }
+        ],
+        "scopes": [
+          {
+            "name": "urn:assignment-system:protected:admin:access"
+          },
+          {
+            "name": "urn:assignment-system:protected:student:access"
+          },
+          {
+            "name": "urn:assignment-system:protected:teacher:access"
+          },
+          {
+            "name": "urn:assignment-system:page:main:actionForAdmin"
+          },
+          {
+            "name": "urn:assignment-system:page:main:actionForStudent"
+          },
+          {
+            "name": "urn:assignment-system:page:main:actionForTeacher"
+          }
+        ]
+      }
+    }
+  ]
+}
