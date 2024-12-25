@@ -1,77 +1,45 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import useLocalStorage from "../../utils/useLocalStorage";
-import {Navigate} from "react-router-dom";
+import {Navigate, useSearchParams} from "react-router-dom";
 
 const Login = () => {
 
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("");
+    const [searchParams,] = useSearchParams();
 
-    const [token, setToken] = useLocalStorage("", "token");
+    const loginFailed = searchParams.get("loginFailed")
 
-    function handleChange(event) {
-        switch (event.target.id) {
-            case "username":
-                setUsername(event.target.value);
-                break;
+    function sendLoginRequest(e) {
+        e.preventDefault();
 
-            case "password":
-                setPassword(event.target.value);
-                break;
-
-            default:
-                break;
+        const config = {
+            clientId: "assignment-system",
+            clientSecret: "1INm9jAu3ms84wLKCXz1S23LG3a5A1sJ",
+            realm: "Assignment",
+            authServerUrl: "http://localhost:8080/",
+            redirectUri: "http://localhost:3000/callback"
         }
-    }
 
-    function sendLoginRequest(event) {
-        event.preventDefault();
-        if (!token) {
-            const myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+        const authUrl = `${config.authServerUrl}/realms/${config.realm}/protocol/openid-connect/auth` +
+            `?client_id=${config.clientId}` +
+            `&response_type=code` +
+            `&redirect_uri=${encodeURI(config.redirectUri)}` +
+            `&scope=openid`;
 
-            const urlencoded = new URLSearchParams();
-            urlencoded.append("grant_type", "password");
-            urlencoded.append("client_id", "assignment-system");
-            urlencoded.append("username", username);
-            urlencoded.append("password", password);
-            urlencoded.append("client_secret", "j2t5MYK3N6E2OLculUGRj3mItwPntVVj");
-            urlencoded.append("scope", "openid");
-
-            const requestOptions = {
-                method: "POST",
-                headers: myHeaders,
-                body: urlencoded,
-                redirect: "follow"
-            };
-
-            fetch("http://localhost:8080/realms/Assignment/protocol/openid-connect/token", requestOptions)
-                .then((response) => {
-                    if (response.status === 200) {
-                        return Promise.all([response.json()]);
-                    } else {
-                        return Promise.reject("Invalid login attempt");
-                    }
-                })
-                .then(([result]) => {
-                    setToken(result.access_token);
-                    window.location.href = "dashboard";
-                }).catch((message) => alert(message))
-        }
+        window.location.assign(authUrl)
     }
 
     return (
         <div className={"Login"}>
             <form>
                 <div>
-                    <label htmlFor={"username"}>Username or Email</label>
-                    <input type={"text"} id={"username"} value={username} onChange={handleChange} required={true}/>
+                    <h1>You Must Login To View Assignments</h1>
                 </div>
 
+                {loginFailed &&
                 <div>
-                    <label htmlFor={"password"}>Password</label>
-                    <input type={"password"} id={"password"} value={password} onChange={handleChange} required={true}/>
+                    <h3>Failed while login, please try again</h3>
                 </div>
+                }
 
                 <div>
                     <button id={"submit"} type={"submit"} onClick={sendLoginRequest}>Login</button>
