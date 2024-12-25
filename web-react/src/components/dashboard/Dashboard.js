@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import useLocalStorage from "../../utils/useLocalStorage";
 import {Link} from "react-router-dom";
+import ajax, {METHOD_GET, METHOD_POST} from "../../services/fetchService";
 
 const Dashboard = () => {
     const [token, setToken] = useLocalStorage("", "token");
@@ -8,20 +9,7 @@ const Dashboard = () => {
     const [assignments, setAssignments] = useState(null);
 
     function createAssignment() {
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${token}`);
-
-        fetch("http://localhost:9789/api/assignments/create", {
-            headers: myHeaders,
-            method: "post",
-        })
-            .then(response => {
-                if (response.status === 200) {
-                    return response.json();
-                } else {
-                    return Promise.reject("You don't have permission to create an assignment");
-                }
-            })
+        ajax("http://localhost:9789/api/assignments/create", METHOD_POST, token)
             .then((assignment) => {
                 window.location.href = `/assignments/${assignment.id}`;
             })
@@ -31,44 +19,16 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${token}`);
-
-        const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-            redirect: "follow"
-        };
-
-        fetch("http://localhost:8080/realms/Assignment/protocol/openid-connect/userinfo", requestOptions)
-            .then((response) => {
-                if (response.status !== 200) {
-                    setToken("")
-                    window.location.href = "login";
-                } else {
-                    console.log("valid token")
-                }
+        ajax("http://localhost:8080/realms/Assignment/protocol/openid-connect/userinfo", METHOD_GET, token)
+            .catch((response) => {
+                setToken("")
+                setIdToken("")
+                window.location.href = "login";
             })
     }, []);
 
     useEffect(() => {
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${token}`);
-
-        const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-            redirect: "follow"
-        };
-
-        fetch("http://localhost:9789/api/assignments", requestOptions)
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json()
-                } else {
-                    return Promise.reject();
-                }
-            })
+        ajax("http://localhost:9789/api/assignments", METHOD_GET, token)
             .then(assignmentsData => {
                 setAssignments(assignmentsData)
             })

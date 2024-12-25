@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
-import {Navigate, useNavigate, useSearchParams} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 import useLocalStorage from "../../utils/useLocalStorage";
+import {ajaxUrlEncoded, METHOD_POST} from "../../services/fetchService";
 
 const Callback = () => {
 
     const [searchParams,] = useSearchParams();
-    const navigate = useNavigate();
     const [token, setToken] = useLocalStorage("", "token")
-    const [idToken, setIdToken] = useLocalStorage("", "idToken")
+    const [, setIdToken] = useLocalStorage("", "idToken")
 
     const code = searchParams.get("code")
     const logout = searchParams.get("logout")
@@ -21,9 +21,6 @@ const Callback = () => {
             redirectUri: "http://localhost:3000/callback"
         }
 
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", 'application/x-www-form-urlencoded');
-
         const urlencoded = new URLSearchParams();
         urlencoded.append("grant_type", "authorization_code");
         urlencoded.append("client_id", `${config.clientId}`);
@@ -31,36 +28,24 @@ const Callback = () => {
         urlencoded.append("code", `${code}`);
         urlencoded.append("redirect_uri", encodeURI(`${config.redirectUri}`));
 
-        const requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: urlencoded,
-            redirect: "follow"
-        };
-
+        // handle token exchange while login
         if (code) {
-            fetch("http://localhost:8080/realms/Assignment/protocol/openid-connect/token",
-                requestOptions)
-                .then(async (response) => {
-                    if (response.status === 200) {
-                        return response.json()
-                    } else {
-                        return Promise.reject();
-                    }
-                }).then((result) => {
-                console.log(result)
-                setToken(result.access_token)
-                setIdToken(result.id_token)
-                navigate("/dashboard");
-            }).catch(() => {
-                return <Navigate to={"/login?loginFailed=true"}/>
-            })
+            ajaxUrlEncoded("http://localhost:8080/realms/Assignment/protocol/openid-connect/token", METHOD_POST, null, urlencoded)
+                .then((result) => {
+                    setToken(result.access_token)
+                    setIdToken(result.id_token)
+                    window.location.href = "/dashboard";
+                })
+                .catch(() => {
+                    window.location.href = "/login?loginFailed=true";
+                })
         }
 
+        // handle logout from keycloak
         if (logout) {
             setToken("")
             setIdToken("")
-            navigate("/")
+            window.location.href = "/";
         }
     }, []);
 

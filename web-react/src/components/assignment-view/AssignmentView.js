@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import useLocalStorage from "../../utils/useLocalStorage";
+import ajax, {METHOD_GET, METHOD_PUT} from "../../services/fetchService";
 
 const AssignmentView = () => {
 
     const params = useParams()
+    const navigate = useNavigate()
     const assignmentsId = params.id;
 
     const [token] = useLocalStorage("", "token")
@@ -18,57 +20,24 @@ const AssignmentView = () => {
     }
 
     function save() {
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${token}`);
-        myHeaders.append("Content-Type", "application/json")
-
-        const requestOptions = {
-            method: "PUT",
-            headers: myHeaders,
-            redirect: "follow",
-            body: JSON.stringify(assignment)
-        };
-
-        fetch(`http://localhost:9789/api/assignments/${assignmentsId}`, requestOptions)
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json()
-                } else {
-                    return Promise.reject();
-                }
-            })
+        ajax(`http://localhost:9789/api/assignments/${assignmentsId}`, METHOD_PUT, token, assignment)
             .then(assignmentData => {
                 setAssignment(assignmentData)
-                alert("Updated successfully")
+                window.location.href = "/assignments/" + assignmentsId
             })
-            .catch(() => {
-                alert("Error on update!!!")
+            .catch((reason) => {
+                alert("Error on update!!!\nReason: " + reason)
+                window.location.href = "/assignments/" + assignmentsId
             })
     }
 
     useEffect(() => {
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${token}`);
-
-        const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-            redirect: "follow"
-        };
-
-        fetch(`http://localhost:9789/api/assignments/${assignmentsId}`, requestOptions)
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json()
-                } else {
-                    return Promise.reject();
-                }
-            })
+        ajax(`http://localhost:9789/api/assignments/${assignmentsId}`, METHOD_GET, token)
             .then(assignmentData => {
                 setAssignment(assignmentData)
             })
-            .catch(() => {
-                alert("No resource found!!!")
+            .catch((reason) => {
+                alert("No resource found!!!\nReason: " + reason)
                 window.location.href = "/dashboard"
             })
     }, []);
@@ -81,19 +50,19 @@ const AssignmentView = () => {
                 <>
                     <h2>Status: {assignment.status}</h2>
                     <h3>
-                        Github URL:
-                        <input type="url" id={"githubUrl"} value={assignment["githubUrl"] || ""}
-                               onChange={(e) => updateAssignment("githubUrl", e.target.value)}/>
-                        <input type="text" id={"branch"} value={assignment["branch"] || ""}
-                               onChange={(e) => updateAssignment("branch", e.target.value)}/>
+                        Github URL: <input type="url" id={"githubUrl"} value={assignment.githubUrl || ""}
+                                           onChange={(e) => updateAssignment("githubUrl", e.target.value)}/>
+                        Branch: <input type="text" id={"branch"} value={assignment.branch || ""}
+                                       onChange={(e) => updateAssignment("branch", e.target.value)}/>
                     </h3>
                     <h3>
-                        Code Review Video URL:
-                        <input type="url" id={"codeReviewVideoUrl"} value={assignment["codeReviewVideoUrl"] || ""}
-                               onChange={(e) => updateAssignment("codeReviewVideoUrl", e.target.value)}/>
+                        Code Review Video URL: <input type="url" id={"codeReviewVideoUrl"}
+                                                      value={assignment.codeReviewVideoUrl || ""}
+                                                      onChange={(e) => updateAssignment("codeReviewVideoUrl", e.target.value)}/>
                     </h3>
 
                     <button onClick={save}>Submit Assignment</button>
+                    <button onClick={() => window.location.href = "/dashboard"}>Back to Dashboard</button>
                 </>
             ) : (
                 <>
