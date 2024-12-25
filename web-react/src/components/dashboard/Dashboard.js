@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import useLocalStorage from "../../utils/useLocalStorage";
-import {Link} from "react-router-dom";
 import ajax, {METHOD_GET, METHOD_POST} from "../../services/fetchService";
+import AssignmentCard from "../assignment-view/AssignmentCard";
 
 const Dashboard = () => {
     const [token, setToken] = useLocalStorage("", "token");
@@ -37,28 +37,23 @@ const Dashboard = () => {
             })
     }, []);
 
-    function handleLogout() {
-        const redirectUri = "http://localhost:3000/callback?logout=true";
-        window.location.href = `http://localhost:8080/realms/Assignment/protocol/openid-connect/logout?`+
-            `id_token_hint=${encodeURI(idToken)}`+
-            `&post_logout_redirect_uri=${encodeURIComponent(redirectUri)}`;
-    }
-
     return (
-        <div className={"Dashboard"} style={{marginTop: "2em"}}>
-            {assignments ? assignments.map((assignment) =>
-                <div key={assignment.id}>
-                    <Link to={`/assignments/${assignment.id}`}>
-                        Assignment id: {assignment.id}
-                    </Link>
-                </div>) : <></>}
-            <button onClick={createAssignment}>
-                Submit New Assignment
-            </button>
+        <div className="dashboard" style={{marginTop: "2em"}}>
+            <div className="assignment-zone-wrapper">
+                <div className="assignment-zone">
+                    {assignments?.length ? (
+                        assignments.map((as) => (
+                            <AssignmentCard key={as.id} assignment={as}/>
+                        ))
+                    ) : (
+                        <p style={{textAlign: "center", width: "100%"}}>
+                            No assignments available.
+                        </p>
+                    )}
+                </div>
+            </div>
 
-            <button onClick={handleLogout}>
-                Logout
-            </button>
+            <button className="btn-create" onClick={createAssignment}>Create Assignment</button>
         </div>
     );
 };

@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {useSearchParams} from "react-router-dom";
 import useLocalStorage from "../../utils/useLocalStorage";
 import {ajaxUrlEncoded, METHOD_POST} from "../../services/fetchService";
+import "./Callback.css";
 
 const Callback = () => {
 
@@ -50,9 +51,18 @@ const Callback = () => {
     }, []);
 
     return (
-        <h1>
-            Redirecting...
-        </h1>
+        <div className={"Callback"}>
+            <div className="loader">
+                <div className="circle"></div>
+                <div className="circle"></div>
+                <div className="circle"></div>
+                <div className="circle"></div>
+            </div>
+
+            <h1 className={"CallbackRedirect"}>
+                Redirecting...
+            </h1>
+        </div>
     );
 };
 

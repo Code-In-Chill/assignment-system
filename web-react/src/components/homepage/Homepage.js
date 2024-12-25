@@ -1,11 +1,9 @@
 import React from 'react';
-import Login from "../login/Login";
+import "./Homepage.css";
 
 const Homepage = () => {
     return (
         <div className={"Homepage"}>
-            Homepage
-            <Login/>
         </div>
     );
 };
