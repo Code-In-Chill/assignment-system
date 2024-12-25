@@ -17,7 +17,7 @@ spring:
         registration:
           keycloak:
             client-id: assignment-system
-            client-secret: j2t5MYK3N6E2OLculUGRj3mItwPntVVj
+            client-secret: 1INm9jAu3ms84wLKCXz1S23LG3a5A1sJ
             scope: openid
             authorization-grant-type: authorization_code
         provider:
