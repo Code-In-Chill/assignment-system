@@ -1,0 +1,114 @@
+.assignment-view-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f4f8;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.assignment-view {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 12px;
+}
+
+.assignment-view h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.assignment-view h2 {
+    font-size: 18px;
+    font-weight: normal;
+    color: #666666;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.assignment-view .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.assignment-view .field label {
+    font-weight: bold;
+    color: #444444;
+    text-align: left;
+}
+
+.assignment-view .field-row {
+    display: flex;
+    gap: 8px;
+}
+
+.assignment-view .field-row input,
+.assignment-view .field input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333333;
+    transition: border-color 0.3s ease;
+}
+
+.assignment-view .field-row input:focus,
+.assignment-view .field input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.assignment-view .field-row button {
+    padding: 8px 12px;
+    border: none;
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.assignment-view .field-row button:hover {
+    background-color: #0056b3;
+}
+
+.assignment-view button {
+    padding: 12px 24px;
+    border: none;
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.assignment-view button:last-child {
+    background-color: #6c757d;
+}
+
+.assignment-view button:hover {
+    background-color: #0056b3;
+}
+
+.assignment-view button:last-child:hover {
+    background-color: #5a6268;
+}
