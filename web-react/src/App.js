@@ -5,10 +5,11 @@ import {Route, Routes} from "react-router-dom";
 import Dashboard from "./components/dashboard/Dashboard";
 import Homepage from "./components/homepage/Homepage";
 import PrivateRoute from "./components/private-route/PrivateRoute";
-import AssignmentView from "./components/assignment-view/AssignmentView";
+import AssignmentView from "./components/assignments/AssignmentView";
 import Callback from "./components/callback/Callback";
 import AssignmentSystem from "./components/AssignmentSystem";
-import AssignmentCard from "./components/assignment-view/AssignmentCard";
+import AssignmentCard from "./components/assignments/AssignmentCard";
+import AssignmentEditor from "./components/assignments/AssignmentEditor";
 
 function App() {
 
@@ -29,9 +30,13 @@ function App() {
                     <PrivateRoute>
                         <AssignmentView/>
                     </PrivateRoute>
-                }>
+                }/>
+                <Route path={`/assignments/:id/edit`} element={
+                    <PrivateRoute>
+                        <AssignmentEditor/>
+                    </PrivateRoute>
+                }/>
 
-                </Route>
                 <Route path={"card"} element={<AssignmentCard/>}/>
                 <Route path={"callback"} element={<Callback/>}/>
                 <Route path={"/"} element={<Homepage/>}/>

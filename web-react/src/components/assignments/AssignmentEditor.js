@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
+import ajax, {METHOD_GET, METHOD_PUT} from "../../services/fetchService";
 import {useNavigate, useParams} from "react-router-dom";
 import useLocalStorage from "../../utils/useLocalStorage";
-import ajax, {METHOD_GET, METHOD_PUT} from "../../services/fetchService";
-import './AssignmentView.css';
 
-const AssignmentView = () => {
+const AssignmentEditor = () => {
 
     const params = useParams()
     const navigate = useNavigate()
@@ -15,7 +14,7 @@ const AssignmentView = () => {
 
     function updateAssignment(prop, value) {
         setAssignment((prevAssignment) => ({
-            ...prevAssignment, // Tạo bản sao của assignment hiện tại
+            ...prevAssignment, // Tạo bản sao của assignments hiện tại
             [prop]: value, // Cập nhật thuộc tính
         }));
     }
@@ -47,8 +46,27 @@ const AssignmentView = () => {
         <div className="assignment-view-wrapper">
             {assignment ? (
                 <div className="assignment-view">
-                    <h1>{assignment.title}</h1>
-                    <h2>Status: {assignment.status}</h2>
+                    <h1>Editing Assignment</h1>
+
+                    <div className="field">
+                        <label htmlFor="title">Title:</label>
+                        <input
+                            id="title"
+                            value={assignment.title || ""}
+                            onChange={(e) => updateAssignment("title", e.target.value)}
+                        />
+                    </div>
+
+                    <div className="field">
+                        <label htmlFor="description">Description:</label>
+                        <input
+                            id="description"
+                            value={assignment.description || ""}
+                            onChange={(e) => updateAssignment("description", e.target.value)}
+                        />
+                    </div>
+
+                    <hr/>
 
                     <div className="field">
                         <label>Github Repository:</label>
@@ -92,7 +110,12 @@ const AssignmentView = () => {
                         </button>
                     </div>
 
-                    <button onClick={save}>Submit Assignment</button>
+                    <hr/>
+
+                    <div className="btn-row">
+                        <button className="btn" onClick={save}>Save Changes</button>
+                        <button className="btn" onClick={save}>Cancel Editing</button>
+                    </div>
                     <button onClick={() => (window.location.href = "/dashboard")}>
                         Back to Dashboard
                     </button>
@@ -104,4 +127,4 @@ const AssignmentView = () => {
     );
 };
 
-export default AssignmentView;
+export default AssignmentEditor;

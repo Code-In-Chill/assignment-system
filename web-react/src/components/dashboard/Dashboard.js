@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import useLocalStorage from "../../utils/useLocalStorage";
 import ajax, {METHOD_GET, METHOD_POST} from "../../services/fetchService";
-import AssignmentCard from "../assignment-view/AssignmentCard";
+import AssignmentCard from "../assignments/AssignmentCard";
 
 const Dashboard = () => {
     const [token, setToken] = useLocalStorage("", "token");

@@ -11,7 +11,7 @@ const AssignmentCard = ({assignment = assignment}) => {
     return (
         <div className="card">
             <span className="title">{assignment.title}</span>
-            <span className="desc">Assignment Description is very long that can't display normally</span>
+            <span className="desc">{assignment.description ? assignment.description : "No description provided"}</span>
             <div className="buttons">
                 <Link target={"_blank"} rel="noopener noreferrer"
                       to={`${assignment.githubUrl}/tree/${assignment.branch}`} className="button">

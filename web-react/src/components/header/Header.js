@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "./Header.css";
 import {Link} from "react-router-dom";
 import useLocalStorage from "../../utils/useLocalStorage";
+import parseToken, {getRolesArray} from "../../utils/jwt";
 
 const Header = () => {
 
@@ -33,6 +34,10 @@ const Header = () => {
         window.location.assign(authUrl)
     }
 
+    useEffect(() => {
+        console.log(getRolesArray(token));
+    }, []);
+
     return (
         <header className={"Header"}>
             <nav className="Nav">
@@ -41,8 +46,6 @@ const Header = () => {
                     <ul className="List">
                         <li><Link to={"/"}>Home</Link></li>
                         <li><Link to={"/dashboard"}>Dashboard</Link></li>
-                        <li><a href="#">News</a></li>
-                        <li><a href="#">Contact</a></li>
                     </ul>
                 </div>
                 {
