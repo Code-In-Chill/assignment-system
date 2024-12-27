@@ -3,33 +3,34 @@ package fis.baolm2.assignmentsystem.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private LocalDate groupStartDate;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+    private LocalDate createDate;
 
     private String username;
 
     private String keycloakId;
 
-    public LocalDate getGroupStartDate() {
-        return groupStartDate;
+    public LocalDate getCreateDate() {
+        return createDate;
     }
 
-    public void setGroupStartDate(LocalDate groupStartDate) {
-        this.groupStartDate = groupStartDate;
+    public void setCreateDate(LocalDate groupStartDate) {
+        this.createDate = groupStartDate;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
