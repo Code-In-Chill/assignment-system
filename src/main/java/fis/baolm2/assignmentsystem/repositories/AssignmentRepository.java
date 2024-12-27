@@ -6,10 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Repository
-public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
+public interface AssignmentRepository extends JpaRepository<Assignment, UUID> {
 
-    Set<Assignment> findAllByUser_Id(Long id);
+    Set<Assignment> findAllByUser_Id(UUID id);
 
 }

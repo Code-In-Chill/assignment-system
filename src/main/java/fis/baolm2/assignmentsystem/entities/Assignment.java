@@ -3,13 +3,16 @@ package fis.baolm2.assignmentsystem.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "assignments")
 public class Assignment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+    private String title;
     private String status;
     private String githubUrl;
     private String branch;
@@ -44,11 +47,11 @@ public class Assignment {
         this.githubUrl = githubUrl;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -66,5 +69,13 @@ public class Assignment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

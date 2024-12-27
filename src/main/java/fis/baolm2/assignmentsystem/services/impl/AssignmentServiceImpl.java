@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class AssignmentServiceImpl implements AssignmentService {
@@ -21,7 +22,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Set<Assignment> findAllByUser_Id(Long id) {
+    public Set<Assignment> findAllByUser_Id(UUID id) {
         return assignmentRepository.findAllByUser_Id(id);
     }
 
@@ -36,18 +37,20 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Assignment findById(Long id) {
+    public Assignment findById(UUID id) {
         return assignmentRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Assignment updateAssignment(Long id, Assignment assignment) {
+    public Assignment updateAssignment(UUID id, Assignment assignment) {
         Assignment updatedAssignment = assignmentRepository.findById(id).orElse(null);
 
         if (updatedAssignment == null) {
             return null;
         }
 
+        updatedAssignment.setTitle(assignment.getTitle());
+//        updatedAssignment.setDescription(assignment.getDescription());
         updatedAssignment.setStatus(assignment.getStatus());
         updatedAssignment.setGithubUrl(assignment.getGithubUrl());
         updatedAssignment.setBranch(assignment.getBranch());
