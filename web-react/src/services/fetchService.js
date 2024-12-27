@@ -19,8 +19,11 @@ function ajax(url, requestMethod, token, requestBody) {
         const statusCode = response.status
         if (statusCode === 200) {
             return response.json()
+        } else if (statusCode === 403) {
+            return Promise.reject("You don't have permission to do that.")
         } else {
-            return Promise.reject(response)
+            console.log(response.json())
+            return Promise.reject("An error occurred, please check logs.")
         }
     })
 }
