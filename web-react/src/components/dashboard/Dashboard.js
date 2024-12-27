@@ -33,12 +33,12 @@ const Dashboard = () => {
                 setAssignments(assignmentsData)
             })
             .catch(() => {
-                alert("No resource found!!!")
+                // alert("No resource found!!!")
             })
     }, []);
 
     return (
-        <div className="dashboard" style={{marginTop: "2em"}}>
+        <div className="dashboard" >
             <div className="assignment-zone-wrapper">
                 <div className="assignment-zone">
                     {assignments?.length ? (
@@ -46,9 +46,9 @@ const Dashboard = () => {
                             <AssignmentCard key={as.id} assignment={as}/>
                         ))
                     ) : (
-                        <p style={{textAlign: "center", width: "100%"}}>
+                        <h1 style={{textAlign: "center", width: "100%", height: "50px"}}>
                             No assignments available.
-                        </p>
+                        </h1>
                     )}
                 </div>
             </div>
