@@ -1,7 +1,7 @@
 package fis.baolm2.assignmentsystem.services.impl;
 
+import fis.baolm2.assignmentsystem.dots.AssignmentRatingDto;
 import fis.baolm2.assignmentsystem.entities.Assignment;
-import fis.baolm2.assignmentsystem.entities.User;
 import fis.baolm2.assignmentsystem.repositories.AssignmentRepository;
 import fis.baolm2.assignmentsystem.services.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +50,29 @@ public class AssignmentServiceImpl implements AssignmentService {
         }
 
         updatedAssignment.setTitle(assignment.getTitle());
-//        updatedAssignment.setDescription(assignment.getDescription());
+        updatedAssignment.setDescription(assignment.getDescription());
         updatedAssignment.setStatus(assignment.getStatus());
         updatedAssignment.setGithubUrl(assignment.getGithubUrl());
         updatedAssignment.setBranch(assignment.getBranch());
         updatedAssignment.setCodeReviewVideoUrl(assignment.getCodeReviewVideoUrl());
+        updatedAssignment.setScore(assignment.getScore());
+        updatedAssignment.setFeedback(assignment.getFeedback());
 
         return assignmentRepository.save(updatedAssignment);
+    }
+
+    @Override
+    public Assignment ratingAssignment(UUID id, AssignmentRatingDto assignmentRatingDto) {
+        Assignment assignment = assignmentRepository.findById(id).orElse(null);
+
+        if (assignment == null) {
+            return null;
+        }
+
+        assignment.setScore(assignmentRatingDto.score());
+        assignment.setFeedback(assignmentRatingDto.feedback());
+        assignment.setStatus("Rated");
+
+        return assignmentRepository.save(assignment);
     }
 }

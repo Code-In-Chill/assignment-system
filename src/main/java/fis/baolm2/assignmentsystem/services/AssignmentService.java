@@ -1,5 +1,6 @@
 package fis.baolm2.assignmentsystem.services;
 
+import fis.baolm2.assignmentsystem.dots.AssignmentRatingDto;
 import fis.baolm2.assignmentsystem.entities.Assignment;
 import fis.baolm2.assignmentsystem.entities.User;
 
@@ -18,4 +19,6 @@ public interface AssignmentService {
     Assignment findById(UUID id);
 
     Assignment updateAssignment(UUID id, Assignment assignment);
+
+    Assignment ratingAssignment(UUID id, AssignmentRatingDto assignmentRatingDto);
 }

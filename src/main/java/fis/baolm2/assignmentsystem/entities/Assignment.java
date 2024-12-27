@@ -13,10 +13,14 @@ public class Assignment {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String title;
+    private String description;
     private String status;
     private String githubUrl;
     private String branch;
     private String codeReviewVideoUrl;
+
+    private Float score;
+    private String feedback;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -77,5 +81,29 @@ public class Assignment {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Float getScore() {
+        return score;
+    }
+
+    public void setScore(Float score) {
+        this.score = score;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
 }
