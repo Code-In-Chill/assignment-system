@@ -1,23 +1,13 @@
 spring:
   application:
     name: AssignmentSystem
-  datasource:
-    url: jdbc:postgresql://localhost:5432/assignment
-    username: postgres
-    password: root
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update
-    show-sql: true
   security:
     oauth2:
       client:
         registration:
           keycloak:
-            client-id: assignment-system
-            client-secret: 1INm9jAu3ms84wLKCXz1S23LG3a5A1sJ
+            client-id: assignment-system-spring
+            client-secret: v7mfb44Ols6mGXO96MMsT7TEW8eQ3RnL
             scope: openid
             authorization-grant-type: authorization_code
         provider:

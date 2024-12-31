@@ -3,6 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import useLocalStorage from "../../utils/useLocalStorage";
 import ajax, {METHOD_GET, METHOD_PUT} from "../../services/fetchService";
 import './AssignmentView.css';
+import {getRolesArray} from "../../utils/jwt";
 
 const AssignmentView = () => {
 
@@ -37,54 +38,56 @@ const AssignmentView = () => {
     }
 
     function validateBeforeSubmit() {
-
-        console.log(assignment)
-
         if (!assignment) {
-            console.log("assignment false")
             return false;
         }
 
         if (!assignment.title) {
-            console.log("title false")
             return false;
         }
 
         if (assignment.status === "Rated") {
-            console.log("status false")
             return false;
         }
 
         if (!assignment.githubUrl) {
-            console.log("github false")
             return false
         }
 
         if (!assignment.branch) {
-            console.log("branch false")
             return false;
         }
 
         if (!assignment.codeReviewVideoUrl) {
-            console.log("code review false")
             return false;
         }
 
         if (assignment.score) {
-            console.log("score false")
             return false;
         }
-
-        console.log(!assignment.feedback)
 
         return !(!assignment.feedback);
     }
 
     function validateBeforeEdit() {
-        if (assignment.status === "Rated")
-            return false
+        return assignment.status !== "Rated";
+    }
 
-        return true
+    function validateBeforeRate() {
+        const roles = getRolesArray(token);
+        if (!roles.includes("admin") || !roles.includes("teacher"))
+            return false;
+
+        if (!assignment)
+            return false;
+
+        if (assignment.status === "Rated")
+            return false;
+
+        if (!assignment.score)
+            return false;
+
+        return !(!assignment.feedback);
     }
 
     useEffect(() => {
@@ -93,17 +96,25 @@ const AssignmentView = () => {
                 setAssignment(assignmentData)
             })
             .catch((reason) => {
-                alert("No resource found!!!\nReason: " + reason)
                 window.location.href = "/dashboard"
             })
     }, []);
 
     return (
         <div className="assignment-view-wrapper">
-            {console.log(validateBeforeSubmit())}
             {assignment ? (
                 <div className="assignment-view">
-                    <h1>{assignment.title}</h1>
+
+                    <div className="title-row">
+                        <button
+                            className="btn-back"
+                            onClick={() => (window.location.href = "/dashboard")}
+                        >
+                            Back
+                        </button>
+                        <h1>{assignment.title}</h1>
+                    </div>
+
                     <h2>Status: {assignment.status}</h2>
 
                     <div className="field">
@@ -176,8 +187,8 @@ const AssignmentView = () => {
                             <button className="btn" onClick={edit}>Edit Assignment</button>
                         }
                     </div>
-                    <button onClick={() => (window.location.href = "/dashboard")}>
-                        Back to Dashboard
+                    <button className="btn-rated" onClick={() => (alert("Rated"))}>
+                        Rating This Assignment
                     </button>
                 </div>
             ) : (

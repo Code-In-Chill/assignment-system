@@ -16,7 +16,7 @@ const Header = () => {
             `&post_logout_redirect_uri=${encodeURIComponent(redirectUri)}`;
     }
 
-    function handleLogin() {
+    function handleLoginFromKeycloakPage() {
         const config = {
             clientId: "assignment-system",
             clientSecret: "1INm9jAu3ms84wLKCXz1S23LG3a5A1sJ",
@@ -38,6 +38,14 @@ const Header = () => {
         console.log(getRolesArray(token));
     }, []);
 
+    function handleLoginByToken() {
+
+    }
+
+    function handleViewAccountProfile() {
+
+    }
+
     return (
         <header className={"Header"}>
             <nav className="Nav">
@@ -48,11 +56,26 @@ const Header = () => {
                         <li><Link to={"/dashboard"}>Dashboard</Link></li>
                     </ul>
                 </div>
-                {
-                    token || token.length > 0 ?
-                        <button className={"BtnLogout"} onClick={handleLogout}>Logout</button> :
-                        <button className={"BtnLogin"} onClick={handleLogin}>Login</button>
-                }
+                <div>
+                    {
+                        (token || token.length > 0) &&
+                        <button className={"BtnLogout"} onClick={handleViewAccountProfile}>Account Profile</button>
+                    }
+                    {
+                        (token || token.length > 0) &&
+                        <button className={"BtnLogout"} onClick={handleLogout}>Logout</button>
+                    }
+                    {
+                        !(token || token.length > 0) &&
+                        <button className={"BtnLogin"} onClick={handleLoginFromKeycloakPage}>Login From
+                            Keycloak</button>
+                    }
+
+                    {
+                        !(token || token.length > 0) &&
+                        <button className={"BtnLogin"} onClick={handleLoginByToken}>Login By Token</button>
+                    }
+                </div>
             </nav>
 
         </header>

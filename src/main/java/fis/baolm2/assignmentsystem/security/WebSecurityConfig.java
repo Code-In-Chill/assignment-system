@@ -28,18 +28,16 @@ public class WebSecurityConfig {
         http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers("/api/users/**").permitAll()
-                                .anyRequest().authenticated()
-                );
+                .authorizeHttpRequests(authorizeRequests -> {
+                    authorizeRequests
+                            .requestMatchers("/api/keycloak-demo/public-endpoint").permitAll()
+                            .anyRequest().authenticated();
+                });
 
-        http.oauth2ResourceServer((oauth2ResourceServer) ->
-                oauth2ResourceServer
-                        .jwt((jwt) ->
-                                jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())
-                        )
-        );
+        // Cấu hình xác thực OAuth2 (JWT) cho các API
+        http.oauth2ResourceServer(oauth2 ->
+                oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
+
         return http.build();
     }
 

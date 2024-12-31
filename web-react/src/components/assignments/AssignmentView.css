@@ -101,9 +101,6 @@
     transition: background-color 0.3s ease;
 }
 
-.assignment-view button:last-child {
-    background-color: #6c757d;
-}
 
 .btn:hover {
     background-color: #0056b3;
@@ -131,10 +128,67 @@
     width: 50%;
 }
 
+.assignment-view .title-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.assignment-view .title-row h1 {
+    margin-bottom: 0;
+}
+
+.danger {
+    color: #ff1f43;
+}
+
+.danger:hover {
+    background-color: #ff1f43;
+}
+
+.success {
+    color: #28a745;
+}
+
+.success:hover {
+    background-color: #218838;
+}
+
+.warning {
+    color: #ffc107;
+}
+
+.warning:hover {
+    background-color: #d39e00;
+}
+
+.primary {
+    color: #007bff;
+}
+
+.primary:hover {
+    background-color: #0056b3;
+}
+
+.secondary {
+    color: #6c757d;
+}
+
+.secondary:hover {
+    background-color: #545b62;
+}
+
+.assignment-view .title-row .btn-back:hover {
+    background-color: #ff1f43;
+}
+
 .btn-disabled:hover {
     cursor: not-allowed;
 }
 
 #branch {
     max-width: 20%;
+}
+
+.btn-rated {
+    background-color: #28a745;
 }

@@ -22,7 +22,7 @@ const AssignmentCard = ({assignment = assignment}) => {
                 </Link>
                 <Link target={"_blank"} rel="noopener noreferrer" to={assignment.codeReviewVideoUrl} className="button">
                     <div className="button-text youtube">
-                        <span>View video review on</span>
+                        <span>View demo video on</span>
                         <span>Youtube</span>
                     </div>
                 </Link>
